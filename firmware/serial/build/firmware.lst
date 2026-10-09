@@ -376,9 +376,9 @@ void APP_SystemClockConfig(void)
  800034e:	2120      	movs	r1, #32
  8000350:	4804      	ldr	r0, [pc, #16]	@ (8000364 <main+0x4c>)
  8000352:	f000 faef 	bl	8000934 <HAL_GPIO_TogglePin>
-        HAL_Delay(2000);
+        HAL_Delay(500);
  8000356:	20fa      	movs	r0, #250	@ 0xfa
- 8000358:	00c0      	lsls	r0, r0, #3
+ 8000358:	0040      	lsls	r0, r0, #1
  800035a:	f000 f851 	bl	8000400 <HAL_Delay>
     while (1)
  800035e:	e7f6      	b.n	800034e <main+0x36>
