@@ -1,0 +1,23 @@
+{
+    "configurations": [
+        {
+            "name": "PY32 ARM GCC",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/src",
+                "${workspaceFolder}/Libraries/CMSIS/Core/Include",
+                "${workspaceFolder}/Libraries/CMSIS/Device/PY32F0xx/Include",
+                "${workspaceFolder}/Libraries/PY32F0xx_HAL_Driver/Inc"
+            ],
+            "defines": [
+                "PY32F003x4",
+                "USE_HAL_DRIVER"
+            ],
+            "compilerPath": "arm-none-eabi-gcc",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-arm"
+        }
+    ],
+    "version": 4
+}

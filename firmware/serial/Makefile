@@ -53,7 +53,8 @@ CFILES      := src/main.c \
                Libraries/PY32F0xx_HAL_Driver/Src/py32f0xx_hal.c \
                Libraries/PY32F0xx_HAL_Driver/Src/py32f0xx_hal_rcc.c \
                Libraries/PY32F0xx_HAL_Driver/Src/py32f0xx_hal_gpio.c \
-               Libraries/PY32F0xx_HAL_Driver/Src/py32f0xx_hal_cortex.c
+               Libraries/PY32F0xx_HAL_Driver/Src/py32f0xx_hal_cortex.c \
+			   Libraries/PY32F0xx_HAL_Driver/Src/py32f0xx_hal_uart.c \
 # ASM source folders
 ADIRS		:= src
 # Single ASM source files

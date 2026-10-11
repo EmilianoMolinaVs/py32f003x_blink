@@ -1,18 +1,30 @@
 
 #include "py32f0xx_hal.h"
+#include <string.h>
 
+// ==== Declaración de Variables Globales ====
+UART_HandleTypeDef huart1; // Declaración del manejador del puerto serial
+
+// ==== Prototipos de Funciones ====
 void APP_SystemClockConfig(void);
+void MX_UART1_Init(void);
 
 int main(void)
 {
+    HAL_Init();              // Inicializar la librería HAL
+    APP_SystemClockConfig(); // Configurar el reloj del sistema
+    MX_UART1_Init();         // Inicializar el UART1
 
-    // 1. Inicializar la librería HAL
-    HAL_Init();
+    char *mensaje = "ola cara de bola!\r\n";
 
-    // 2. Configurar el reloj del sistema
-    APP_SystemClockConfig();
+    while (1)
+    {
+        HAL_UART_Transmit(&huart1, (uint8_t *)mensaje, strlen(mensaje), HAL_MAX_DELAY);
+        HAL_Delay(1000);
+    }
 
-    // 3. Habilitar el reloj para el puerto GPIOB
+    /*
+        // Habilitar el reloj para el puerto GPIOB
     __HAL_RCC_GPIOB_CLK_ENABLE();
 
     // 4. Configurar el pin como salida (PB5)
@@ -23,11 +35,41 @@ int main(void)
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-    while (1)
-    {
-        HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_5);
-        HAL_Delay(500);
-    }
+    */
+}
+
+// ==== DECLARACIÓN DE FUNCIONES ====
+void MX_UART1_Init(void)
+{
+    // Habiilitar el reloj para el puerto y el USART
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+    __HAL_RCC_USART2_CLK_ENABLE();
+
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+    // Configurar GPIOs en su función alternativa UART
+    // PA0: TX Py32F003
+    // PA1: RX Py32F003
+    GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+
+    GPIO_InitStruct.Alternate = GPIO_AF9_USART2;
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+    // Configurar los parámetros del UART
+    huart1.Instance = USART2;
+    huart1.Init.BaudRate = 115200;
+    huart1.Init.WordLength = UART_WORDLENGTH_8B;
+    huart1.Init.StopBits = UART_STOPBITS_1;
+    huart1.Init.Parity = UART_PARITY_NONE;
+    huart1.Init.Mode = UART_MODE_TX_RX;
+    huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+    huart1.Init.OverSampling = UART_OVERSAMPLING_16;
+
+    // Inicializar el hardware
+    HAL_UART_Init(&huart1);
 }
 
 // Configuración básica del reloj interno (HSI)
